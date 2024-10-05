@@ -10,12 +10,9 @@ services:
 
   web:
     container_name: web
-    build:
-      dockerfile: Dockerfile
-    image: voditel_web:latest
-
-#    command: python manage.py runserver 0.0.0.0:8000
-#    command: gunicorn -b 0.0.0.0:8000 voditel.wsgi:application
+    build: .
+    #    command: python manage.py runserver 0.0.0.0:8000
+    #    command: gunicorn -b 0.0.0.0:8000 voditel.wsgi:application
     command: >
       bash -c "./manage.py collectstatic --noinput && ./manage.py migrate  && gunicorn -b 0.0.0.0:8000 voditel.wsgi:application"
 
