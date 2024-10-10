@@ -1,12 +1,12 @@
 services:
 
-  db:
-    image: postgres:15
-    container_name: postgres
-    volumes:
-      - ./pg_data:/var/lib/postgresql/data
-    env_file:
-      - .env
+#  db:
+#    image: postgres:15
+#    container_name: postgres
+#    volumes:
+#      - ./pg_data:/var/lib/postgresql/data
+#    env_file:
+#      - .env
 
   web:
     container_name: web
@@ -18,9 +18,10 @@ services:
 
     env_file:
       - .env
-    depends_on:
-      - db
+#    depends_on:
+#      - db
     volumes:
+      - ./db/:/code/db/
       - static_volume:/code/static
       - media_volume:/code/media
 

@@ -9,7 +9,7 @@ ENV PYTHONUNBUFFERED=1
 # Install dependencies
 RUN pip install --upgrade pip
 
-RUN apt update && apt -qy install libpq-dev
+#RUN apt update && apt -qy install libpq-dev
 
 
 RUN useradd -rms /bin/bash app && chmod 777 /opt /run
