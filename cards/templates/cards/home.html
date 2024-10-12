@@ -32,7 +32,7 @@
 {#            </div>#}
 {#        </div>#}
 {#    </div>#}
-<nav class="navbar navbar-expand-sm bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Navbar</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -69,7 +69,7 @@
                             </li>
                             <li>
                                 <form id="logout-form" action="{% url 'users:logout' %}" method="post">
-                                    <a href="#" class="dropdown-item"
+                                    <a href="#" class="dropdown-item lg"
                                        onclick="document.getElementById('logout-form').submit(); return false;">Выйти</a>
                                     {% csrf_token %}
                                 </form>
@@ -79,7 +79,7 @@
                 {% else %}
                     <li class="nav-item" style="display: inline">
                         <a style="display: inline-block" class="nav-link" href="#">Регистрация</a> |
-                        <a style="display: inline-block" class="nav-link" href="{% url 'users:login' %}">Войти</a>
+                        <a style="display: inline-block" class="nav-link" href="{% url 'users:login' %}"><span>Войти</span></a>
                     </li>
                 {% endif %}
             </ul>
