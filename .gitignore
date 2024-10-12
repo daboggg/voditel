@@ -3,6 +3,6 @@ venv
 .idea
 db.sqlite3
 pg_data
-db
-static
-media
+/db
+/static
+/media
