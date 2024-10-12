@@ -13,6 +13,7 @@ services:
     build: .
     #    command: python manage.py runserver 0.0.0.0:8000
     #    command: gunicorn -b 0.0.0.0:8000 voditel.wsgi:application
+#    user: app:app
     command: >
       bash -c "./manage.py collectstatic --noinput && ./manage.py migrate  && gunicorn -b 0.0.0.0:8000 voditel.wsgi:application"
 
@@ -21,7 +22,8 @@ services:
 #    depends_on:
 #      - db
     volumes:
-      - ./db/:/code/db/
+      - ./:/code/
+#      - ./db/:/code/db/
       - static_volume:/code/static
       - media_volume:/code/media
 
