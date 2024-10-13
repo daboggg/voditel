@@ -59,7 +59,7 @@
                     </li>
                 {% else %}
                     <li class="nav-item" style="display: inline">
-                        <a style="display: inline-block" class="nav-link" href="#">Регистрация</a> |
+                        <a style="display: inline-block" class="nav-link" href="{% url 'users:register' %}">Регистрация</a> |
                         <a style="display: inline-block" class="nav-link" href="{% url 'users:login' %}">Войти</a>
                     </li>
                 {% endif %}
