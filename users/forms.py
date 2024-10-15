@@ -3,6 +3,7 @@ import datetime
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django import forms
+from datepick import widgets
 
 class LoginUserForm(AuthenticationForm):
     username = forms.CharField(
@@ -25,8 +26,12 @@ class RegisterUserForm(UserCreationForm):
     password1 = forms.CharField(label="Пароль", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     password2 = forms.CharField(label="Повтор пароля", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     this_year = datetime.date.today().year
-    date_birth = forms.DateField(label="Дата рождения",widget=forms.SelectDateWidget(years=tuple(range(this_year - 100, this_year - 5)),
-                                                                                     attrs={'class': 'form-control'}))
+    date_birth = forms.DateField(label="Дата рождения",
+                                 # initial=datetime.date.today(),
+                                 widget=forms.SelectDateWidget(years=tuple(range(this_year - 100, this_year - 5)),
+                                                                                     attrs={'class': ''},))
+    # date_birth = forms.DateField(label="Дата рождения",
+    #                              widget=widgets.DateInput())
 
     class Meta:
         model = get_user_model()
@@ -38,7 +43,6 @@ class RegisterUserForm(UserCreationForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            # 'date_birth': forms.DateInput(attrs={'class': 'form-control'}),
             'photo': forms.FileInput(attrs={'class': 'form-control'}),
         }
         labels = {
@@ -62,8 +66,11 @@ class ProfileUserForm(forms.ModelForm):
     last_name = forms.CharField(label='Фамилия', widget=forms.TextInput(attrs={'class': 'form-control'}))
     this_year = datetime.date.today().year
     date_birth = forms.DateField(label="Дата рождения",widget=forms.SelectDateWidget(years=tuple(range(this_year-100, this_year-5)),
-                                                                                     attrs={'class': 'form-control'}))
-
+                                                                                     # attrs={'class': 'form-control'},
+                                                                                     # empty_label=("Choose Year", "Choose Month", "Choose Day"),
+                                                                                     ))
+    # date_birth = forms.DateField(label="Дата рождения",
+    #                              widget=widgets.DateInput())
     class Meta:
         model= get_user_model()
         fields = ['username', 'email', 'first_name', 'last_name', 'photo', 'date_birth']

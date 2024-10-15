@@ -30,6 +30,8 @@ class ProfileUser(LoginRequiredMixin, UpdateView):
     form_class = ProfileUserForm
     template_name = 'users/profile.html'
     extra_context = {'title': 'Профиль пользователя'}
+    # login_url = reverse_lazy('users:login')
+
 
     def get_success_url(self):
         return reverse_lazy("users:profile")

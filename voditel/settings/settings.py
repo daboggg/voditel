@@ -130,7 +130,12 @@ AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
+LOGIN_URL = 'users:login'
+
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'users.authentication.EmailAuthBackend',
 ]
+
+
+# DATE_INPUT_FORMATS = ["%d.%m.%Y"]
