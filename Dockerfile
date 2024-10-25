@@ -22,8 +22,7 @@ RUN useradd -rms /bin/bash daboggg && chmod 777 /opt /run
 
 
 
-RUN mkdir /code/static && mkdir /code/media && chown -R daboggg:daboggg /code && chmod 755 /code
-#RUN mkdir /code/static && mkdir /code/media
+RUN mkdir /code/static && mkdir /code/media && mkdir /code/db && chown -R daboggg:daboggg /code && chmod 755 /code
 
 USER daboggg
 
