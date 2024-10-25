@@ -18,15 +18,16 @@ RUN pip install -r requirements.txt
 #RUN apt update && apt -qy install libpq-dev
 
 
-RUN useradd -rms /bin/bash app && chmod 777 /opt /run
+RUN useradd -rms /bin/bash daboggg && chmod 777 /opt /run
 
 
 
-RUN mkdir /code/static && mkdir /code/media && chown -R app:app /code && chmod 755 /code
+RUN mkdir /code/static && mkdir /code/media && chown -R daboggg:daboggg /code && chmod 755 /code
+#RUN mkdir /code/static && mkdir /code/media
 
-USER app
+USER daboggg
 
-#COPY --chown=app:app . .
+COPY --chown=daboggg:daboggg . .
 
 #RUN pip install -r requirements.txt
 
