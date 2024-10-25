@@ -15,7 +15,7 @@ services:
     #    command: gunicorn -b 0.0.0.0:8000 voditel.wsgi:application
 #    user: app:app
     command: >
-      bash -c "./manage.py collectstatic --noinput && ./manage.py migrate  && gunicorn -b 0.0.0.0:8000 voditel.wsgi:application"
+      bash -c "./manage.py collectstatic --noinput && ./manage.py makemigrations && ./manage.py migrate  && gunicorn -b 0.0.0.0:8000 voditel.wsgi:application"
 
     env_file:
       - .env

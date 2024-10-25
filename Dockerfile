@@ -24,7 +24,7 @@ RUN useradd -rms /bin/bash app && chmod 777 /opt /run
 
 RUN mkdir /code/static && mkdir /code/media && chown -R app:app /code && chmod 755 /code
 
-#USER app
+USER app
 
 #COPY --chown=app:app . .
 
