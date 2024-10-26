@@ -8,7 +8,7 @@
     <div class="row align-items-center percent90-height justify-content-center">
 
         <div class="col-sm-8 col-md-8 col-lg-4">
-            <div class="display-6 text-center mb-3">Профиль</div>
+            <div class="display-6 text-center mb-3">{{ title }}</div>
             {% if user.photo %}
                 <img class="img-thumbnail" src="{{ user.photo.url }}" alt="">
             {% endif %}
@@ -25,6 +25,7 @@
                 {% endfor %}
                 <button type="submit" class="btn btn-secondary float-end">Сохранить</button>
             </form>
+            <p class="float-start"><a href="{% url 'users:password_change' %}" class="btn btn-secondary">Сменить пароль</a></p>
         </div>
     </div>
 {% endblock %}
