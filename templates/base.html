@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load common_filters %}
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -13,7 +14,7 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-sm bg-body-tertiary">
+<nav class="navbar navbar-expand-sm bg-body-tertiary">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'home' %}">Cards</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -41,7 +42,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false">
-                            <i class="bi bi-person-circle"></i>  {{ user.username }}
+                            <i class="bi bi-person-circle"></i> {{ user.username }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="{% url 'users:profile' %}">Профиль</a></li>
@@ -59,7 +60,8 @@
                     </li>
                 {% else %}
                     <li class="nav-item" style="display: inline">
-                        <a style="display: inline-block" class="nav-link" href="{% url 'users:register' %}">Регистрация</a> |
+                        <a style="display: inline-block" class="nav-link"
+                           href="{% url 'users:register' %}">Регистрация</a> |
                         <a style="display: inline-block" class="nav-link" href="{% url 'users:login' %}">Войти</a>
                     </li>
                 {% endif %}
@@ -67,6 +69,15 @@
         </div>
     </div>
 </nav>
+
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="h3 text-center alert alert-{{ message.tags|alert_class }}" role="alert">
+            <p>{{ message }}</p>
+        </div>
+    {% endfor %}
+{% endif %}
 
 
 <div class="container">
