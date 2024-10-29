@@ -9,3 +9,6 @@ downv:
 
 upd:
 	docker compose up -d
+
+bld:
+	docker compose build

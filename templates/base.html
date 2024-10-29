@@ -4,7 +4,6 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    {#    <meta name="viewport" content="width=device-width, initial-scale=1.0">#}
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'cards/bootstrap/css/bootstrap.min.css' %}">
@@ -70,14 +69,31 @@
     </div>
 </nav>
 
+    {% if messages %}
+        <!-- Your toast elements -->
+<div aria-live="polite" aria-atomic="true" class="bg-dark position-relative bd-example-toasts">
+  <div class="toast-container position-absolute top-0 end-0 p-3" id="toastPlacement">
+        {% for message in messages %}
+            <div class="toast text-white bg-{{ message.tags|alert_class }} rounded-1">
+                <div class="toast-body bg-{{ message.tags|alert_class }} h5 text-center">
+                    {{ message }}
+                </div>
+            </div>
+        {% endfor %}
+  </div>
+</div>
+    {% endif %}
 
-{% if messages %}
-    {% for message in messages %}
-        <div class="h3 text-center alert alert-{{ message.tags|alert_class }}" role="alert">
-            <p>{{ message }}</p>
-        </div>
-    {% endfor %}
-{% endif %}
+
+<!-- Your Toast JavaScript -->
+<script>
+  var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+  var toastList = toastElList.map(function(toastEl) {
+    return new bootstrap.Toast(toastEl)
+  })
+  toastList.forEach(toast => toast.show())
+</script>
+
 
 
 <div class="container">
@@ -85,3 +101,6 @@
 
     {% endblock %}
 </div>
+
+</body>
+</html>

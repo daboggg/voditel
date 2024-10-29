@@ -1,7 +1,8 @@
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView, PasswordChangeView
+from django.contrib.auth.views import LoginView, PasswordChangeView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -32,20 +33,29 @@ class LoginUser(SuccessMessageMixin, ErrorMessageMixin, LoginView):
     # def get_success_url(self):
     #     return reverse_lazy('home')
 
+class LogoutUser(LogoutView):
+    def post(self, request, *args, **kwargs):
+        messages.warning(request, f'{request.user} - вышел из приложения')
+        return super().post(request, *args, **kwargs)
 
-class RegisterUser(CreateView):
+
+class RegisterUser(SuccessMessageMixin, ErrorMessageMixin, CreateView):
     form_class = RegisterUserForm
     template_name = 'users/register.html'
     extra_context = {'title': 'Регистрация'}
     success_url = reverse_lazy('users:login')
+    success_message = "%(username)s - успешная регистрация"
+    error_message = "Ошибка!"
 
 
-class ProfileUser(LoginRequiredMixin, UpdateView):
+class ProfileUser(SuccessMessageMixin, ErrorMessageMixin, LoginRequiredMixin, UpdateView):
     model = get_user_model()
     form_class = ProfileUserForm
     template_name = 'users/profile.html'
     extra_context = {'title': 'Профиль пользователя'}
     # login_url = reverse_lazy('users:login')
+    success_message = "%(username)s - профиль изменен"
+    error_message = "Ошибка!"
 
 
     def get_success_url(self):
@@ -55,11 +65,13 @@ class ProfileUser(LoginRequiredMixin, UpdateView):
         return self.request.user
 
 
-class UserPasswordChange(PasswordChangeView):
+class UserPasswordChange(SuccessMessageMixin, ErrorMessageMixin, PasswordChangeView):
     form_class = UserPasswordChangeForm
     success_url = reverse_lazy("users:password_change_done")
     template_name = "users/password_change_form.html"
     extra_context = {"title": "Изменение пароля"}
+    success_message = "пароль изменен"
+    error_message = "Ошибка!"
 
 
 

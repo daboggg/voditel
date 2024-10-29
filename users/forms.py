@@ -62,8 +62,8 @@ class RegisterUserForm(UserCreationForm):
 class ProfileUserForm(forms.ModelForm):
     username = forms.CharField(disabled=True, label='Логин', widget=forms.TextInput(attrs={'class': 'form-control'}))
     email = forms.EmailField(disabled=True, label='E-mail', widget=forms.EmailInput(attrs={'class': 'form-control'}))
-    first_name = forms.CharField(label='Имя', widget=forms.TextInput(attrs={'class': 'form-control'}))
-    last_name = forms.CharField(label='Фамилия', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    first_name = forms.CharField(required=False, label='Имя', widget=forms.TextInput( attrs={'class': 'form-control'}))
+    last_name = forms.CharField(required=False, label='Фамилия', widget=forms.TextInput(attrs={'class': 'form-control',}))
     this_year = datetime.date.today().year
     date_birth = forms.DateField(label="Дата рождения",widget=forms.SelectDateWidget(years=tuple(range(this_year-100, this_year-5)),
                                                                                      # attrs={'class': 'form-control'},
