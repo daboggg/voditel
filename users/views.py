@@ -1,15 +1,14 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView, PasswordChangeView, LogoutView
+from django.contrib.auth.views import LoginView, PasswordChangeView, LogoutView, PasswordResetView, \
+    PasswordResetConfirmView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 
 from mixins import ErrorMessageMixin
-from users.forms import LoginUserForm, RegisterUserForm, ProfileUserForm, UserPasswordChangeForm
+from users.forms import LoginUserForm, RegisterUserForm, ProfileUserForm, UserPasswordChangeForm, UserPasswordResetForm
 
 
 class LoginUser(SuccessMessageMixin, ErrorMessageMixin, LoginView):
@@ -73,11 +72,8 @@ class UserPasswordChange(SuccessMessageMixin, ErrorMessageMixin, PasswordChangeV
     success_message = "пароль изменен"
     error_message = "Ошибка!"
 
-
-
-
-
-
+class UserPasswordReset(PasswordResetView):
+    form_class = UserPasswordResetForm
 
 
 

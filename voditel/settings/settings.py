@@ -139,3 +139,5 @@ AUTHENTICATION_BACKENDS = [
 
 
 # DATE_INPUT_FORMATS = ["%d.%m.%Y"]
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
