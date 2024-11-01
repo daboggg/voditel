@@ -24,14 +24,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
 
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-            </ul>
+            {% if user.is_authenticated %}
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'list_card' %}">Карточки</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                </ul>
+            {% endif %}
 
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 {% if user.is_authenticated %}
@@ -69,37 +71,37 @@
     </div>
 </nav>
 
-    {% if messages %}
-        <!-- Your toast elements -->
-<div aria-live="polite" aria-atomic="true" class="bg-dark position-relative bd-example-toasts">
-  <div class="toast-container position-absolute top-0 end-0 p-3" id="toastPlacement">
-        {% for message in messages %}
-            <div class="toast text-white bg-{{ message.tags|alert_class }} rounded-1">
-                <div class="toast-body bg-{{ message.tags|alert_class }} h5 text-center">
-                    {{ message }}
+{% if messages %}
+    <!-- Your toast elements -->
+    <div aria-live="polite" aria-atomic="true" class="bg-dark position-relative bd-example-toasts">
+        <div class="toast-container position-absolute top-0 end-0 p-3" id="toastPlacement">
+            {% for message in messages %}
+                <div class="toast text-white bg-{{ message.tags|alert_class }} rounded-1">
+                    <div class="toast-body bg-{{ message.tags|alert_class }} h5 text-center">
+                        {{ message }}
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
-  </div>
-</div>
-    {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
 
 
 <!-- Your Toast JavaScript -->
 <script>
-  var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-  var toastList = toastElList.map(function(toastEl) {
-    return new bootstrap.Toast(toastEl)
-  })
-  toastList.forEach(toast => toast.show())
+    var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+    var toastList = toastElList.map(function (toastEl) {
+        return new bootstrap.Toast(toastEl)
+    })
+    toastList.forEach(toast => toast.show())
 </script>
-
 
 
 <div class="container">
     {% block content %}
 
     {% endblock %}
+
 </div>
 
 </body>

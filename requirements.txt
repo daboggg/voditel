@@ -8,3 +8,4 @@ typing_extensions==4.12.2
 wcwidth==0.2.13
 pillow==10.4.0
 django-datepick==0.1.2
+django-monthfield==0.1.4
