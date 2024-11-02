@@ -2,3 +2,6 @@
 .percent90-height {
   height: 90vh;
 }
+body {
+  font-size: 1.5rem;
+}

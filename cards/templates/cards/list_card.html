@@ -11,7 +11,7 @@
             <ul class="list-group">
                 {% for card in cards %}
                     <li class="list-group-item">
-                        <a class="link-secondary h5" href="{% url 'detail_card' card.id %}">{{ card }}</a>
+                        <a class="link-secondary" href="{% url 'detail_card' card.id %}">{{ card }}</a>
                     </li>
                 {% endfor %}
             </ul>

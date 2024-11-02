@@ -3,6 +3,7 @@ import datetime
 from django import forms
 from datetime import date
 
+from django.core.exceptions import ValidationError
 from month.widgets import MonthSelectorWidget
 
 from cards.models import Card, Truck, Norm
@@ -29,3 +30,12 @@ class AddCardForm(forms.ModelForm):
     class Meta:
         model = Card
         fields = ['month', 'mileage', 'remaining_fuel', 'truck', 'norm']
+
+    def clean(self):
+        cd = super().clean()
+        month = cd.get('month')
+        truck = cd.get('truck')
+        if Card.objects.filter(month=month, truck=truck).exists():
+            raise ValidationError('Такая карточка уже существует')
+
+
