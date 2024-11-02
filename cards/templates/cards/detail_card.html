@@ -1,6 +1,44 @@
 {% extends 'base.html' %}
 {% load common_filters %}
 
+{% block title %}
+    {{ title }}
+{% endblock %}
+
 {% block content %}
-    {{ card }}
+
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <div class="display-6 text-center">
+                    {{ title }}
+                    <a class="link-secondary" href="{% url 'edit_card' card.id %}">
+                        <i class="float-end bi bi-gear"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+
+            <table class="table">
+            <tbody>
+            <tr>
+                <td>остаток топлива на 1 число месяца: </td>
+                <td><span class="badge bg-secondary">{{ card.remaining_fuel }} л</span></td>
+            </tr>
+            <tr>
+                <td>пробег на 1 число месяца:</td>
+                <td><span class="badge bg-secondary">{{ card.mileage }} км</span></td>
+            </tr>
+            <tr>
+                <td>норма расхода топлива:</td>
+                <td><span class="badge bg-secondary">{{ card.norm }}</span></td>
+            </tr>
+            </tbody>
+        </table>
+
+            <a href="#" class="btn btn-secondary">Добавить выезд</a>
+        </div>
+
+    </div>
 {% endblock %}

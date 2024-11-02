@@ -28,7 +28,7 @@ class Card(models.Model):
     mileage = models.PositiveIntegerField(verbose_name="пробег на 1 число месяца")
     remaining_fuel = models.FloatField(verbose_name="остаток топлива на 1 число месяца")
     truck = models.ForeignKey(Truck, related_name="cards", on_delete=models.CASCADE, verbose_name='автомобиль')
-    norm = models.ForeignKey(Norm, related_name="cards", on_delete=models.CASCADE, verbose_name='норма по топливу')
+    norm = models.ForeignKey(Norm, related_name="cards", on_delete=models.CASCADE, verbose_name='норма расхода топлива')
 
     def __str__(self):
         return f'{self.truck.name} - {get_rus_month_year(self.month)}'
