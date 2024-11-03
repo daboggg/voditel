@@ -1,11 +1,12 @@
 from django.contrib import admin
 
-from cards.models import Truck, Norm, Card
+from cards.models import Truck, Norm, Card, Departure
 
 
 @admin.register(Truck)
 class TruckAdmin(admin.ModelAdmin):
     fields = ['name', 'number']
+
 
 @admin.register(Norm)
 class NormAdmin(admin.ModelAdmin):
@@ -14,6 +15,15 @@ class NormAdmin(admin.ModelAdmin):
               'work_with_pump_liter_per_min',
               'work_without_pump_liter_per_min', ]
 
+
 @admin.register(Card)
 class CardAdmin(admin.ModelAdmin):
-    fields = ['date', 'mileage', 'remaining_fuel', 'truck', 'norm']
+    fields = ['month', 'mileage', 'remaining_fuel', 'truck', 'norm']
+
+
+@admin.register(Departure)
+class DepartureAdmin(admin.ModelAdmin):
+    fields = ['date', 'time',
+              'place_of_work', 'mileage_start',
+              'distance', 'mileage_end',
+              'card']

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
     {{ title }}
@@ -12,7 +13,6 @@
             {{ form.media }}
             <form method="post">
                 {% csrf_token %}
-                <input type="hidden" name="next" value="{{ next }}"/>
                 <div class="form-text text-danger">{{ form.non_field_errors }}</div>
 
                 {% for f in form %}
@@ -28,4 +28,6 @@
     </div>
 {% endblock %}
 
-{#todo сделать инпуты с иконками input group#}
+
+
+

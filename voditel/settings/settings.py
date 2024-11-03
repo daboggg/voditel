@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cards.apps.CardsConfig',
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
+    'bootstrap_datepicker_plus',
 
 ]
 
@@ -137,7 +138,44 @@ AUTHENTICATION_BACKENDS = [
     'users.authentication.EmailAuthBackend',
 ]
 
-
 # DATE_INPUT_FORMATS = ["%d.%m.%Y"]
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+BOOTSTRAP_DATEPICKER_PLUS = {
+    # Options for all input widgets
+    # More options: https://getdatepicker.com/4/Options/
+    "options": {
+        "locale": "ru",
+        "showClose": True,
+        "showClear": True,
+        "showTodayButton": True,
+        # "allowInputToggle": True,
+    },
+    # You can set date and event hook options using JavaScript, usage in README.
+    # You can also set options for specific variant widgets only which overrides above options.
+    "variant_options": {
+        "date": {
+            "format": "DD MMMM YYYY",
+        },
+        "time": {
+            "format": "HH:mm",
+        },
+        "datetime": {
+            "format": "MM/DD/YYYY HH:mm",
+        },
+        "month": {
+            "format": "MMMM, YYYY",
+        },
+    },
+    #
+    # HTML attributes for widget <input> element
+    # "attrs": {
+    #     "class": "form-control",
+    # },
+    #
+    # Override input addon icon classes
+    "addon_icon_classes": {
+        "month": "bi-calendar-month",
+    },
+}

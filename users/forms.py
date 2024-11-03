@@ -1,10 +1,8 @@
 import datetime
 
-from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm, PasswordResetForm, \
-    SetPasswordForm
 from django import forms
-from datepick import widgets
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm, PasswordResetForm
 
 
 class LoginUserForm(AuthenticationForm):

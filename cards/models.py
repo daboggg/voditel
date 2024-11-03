@@ -1,6 +1,5 @@
 from django.db import models
 from django.urls import reverse
-from month.models import MonthField
 
 from users.templatetags.common_filters import get_rus_month_year
 
@@ -12,6 +11,7 @@ class Truck(models.Model):
     def __str__(self):
         return f'{self.name} - {self.number}'
 
+
 class Norm(models.Model):
     season = models.CharField(max_length=20, verbose_name="название сезона и марка авто")
     liter_per_km = models.FloatField(verbose_name="пробег (л/км)")
@@ -22,9 +22,8 @@ class Norm(models.Model):
         return f'{self.season}'
 
 
-
 class Card(models.Model):
-    month = MonthField(verbose_name="дата начала карты")
+    month = models.DateField(verbose_name="дата начала карты")
     mileage = models.PositiveIntegerField(verbose_name="пробег на 1 число месяца")
     remaining_fuel = models.FloatField(verbose_name="остаток топлива на 1 число месяца")
     truck = models.ForeignKey(Truck, related_name="cards", on_delete=models.CASCADE, verbose_name='автомобиль')
@@ -39,20 +38,25 @@ class Card(models.Model):
     class Meta:
         ordering = ["-month"]
 
-# class Entry(models.Model):
-#     name = models.CharField(max_length=30)
-#     date = models.DateField()
-#     probeg_start = models.PositiveIntegerField()
-#     dictance = models.PositiveIntegerField(blank=True, null=True)
-#     probeg_end = models.PositiveIntegerField(blank=True, null=True)
-#     card = models.ForeignKey(Card, related_name='entries', on_delete=models.CASCADE)
-#
-#     def save(self, *args, **kwargs):
-#         if not self.card.entries.count():
-#             self.probeg_start = self.card.start
-#         else:
-#             entry = Entry.objects.filter(card=self.card).order_by('date').last()
-#             self.probeg_start = entry.probeg_start + 40
-#         super().save(*args, **kwargs)
+
+class Departure(models.Model):
+    date = models.DateField(verbose_name='дата выезда')
+    time = models.TimeField(verbose_name='время выезда')
+    place_of_work = models.CharField(max_length=40, verbose_name='место/цель выезда')
+    mileage_start = models.PositiveIntegerField(verbose_name='пробег перед выездом')
+    distance = models.PositiveIntegerField(blank=True, null=True, verbose_name='пройдено (км)')
+    mileage_end = models.PositiveIntegerField(blank=True, null=True, verbose_name='пробег после выезда')
+    card = models.ForeignKey(Card, related_name='departures', on_delete=models.CASCADE, verbose_name='карточка')
+
+    def __str__(self):
+        return f'{self.date} - {self.place_of_work}'
+
+    # def save(self, *args, **kwargs):
+    #     if not self.card.entries.count():
+    #         self.probeg_start = self.card.start
+    #     else:
+    #         entry = Departure.objects.filter(card=self.card).order_by('date').last()
+    #         self.probeg_start = entry.probeg_start + 40
+    #     super().save(*args, **kwargs)
 
 

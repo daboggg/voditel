@@ -1,9 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView
 
-from cards.forms import AddCardForm
+from cards.forms import AddCardForm, AddDepartureForm
 from cards.models import Card
 from mixins import ErrorMessageMixin
 
@@ -52,6 +53,22 @@ class UpdateCard(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, Upd
         kwargs = super().get_form_kwargs()
         kwargs['update'] = True
         return kwargs
+
+
+class AddDeparture(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, CreateView):
+    form_class = AddDepartureForm
+    template_name = 'cards/add_departure.html'
+    extra_context = {'title': 'Добавить выезд'}
+    success_url = reverse_lazy('home')
+    # success_message = "Карточка создана"
+    # error_message = 'Ошибка!'
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['card'] = get_object_or_404(Card, pk=self.kwargs['pk'])
+        return initial
+
+
 
 
 
