@@ -58,15 +58,35 @@ class UpdateCard(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, Upd
 class AddDeparture(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, CreateView):
     form_class = AddDepartureForm
     template_name = 'cards/add_departure.html'
-    extra_context = {'title': 'Добавить выезд'}
     success_url = reverse_lazy('home')
-    # success_message = "Карточка создана"
-    # error_message = 'Ошибка!'
+    success_message = "Выезд добавлен"
+    error_message = 'Ошибка!'
+
+    def setup(self, request, *args, **kwargs):
+        self.card = get_object_or_404(Card, pk=kwargs['pk'])
+        super().setup(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['title'] = 'Добавить выезд'
+        ctx['card'] = self.card
+        return ctx
 
     def get_initial(self):
         initial = super().get_initial()
-        initial['card'] = get_object_or_404(Card, pk=self.kwargs['pk'])
+        initial['card'] = self.card
+        departures = self.card.departures.all()
+
+        if not departures:
+            initial['mileage_start'] = self.card.mileage
+        else:
+            initial['mileage_start'] = departures.first().mileage_end
         return initial
+
+
+
+
+
 
 
 
