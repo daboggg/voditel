@@ -1,3 +1,5 @@
+from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 
@@ -50,9 +52,11 @@ class Departure(models.Model):
     with_pump = models.PositiveIntegerField(blank=True, null=True, verbose_name='с насосом (мин)')
     without_pump = models.PositiveIntegerField(blank=True, null=True, verbose_name='без насоса (мин)')
     refueled = models.PositiveIntegerField(blank=True, null=True, verbose_name='заправлено (л)')
-    fuel_consumption = models.FloatField(verbose_name='расход топлива (л)')
 
+    fuel_consumption = models.FloatField(blank=True, null=True, verbose_name='расход топлива (л)')
     card = models.ForeignKey(Card, related_name='departures', on_delete=models.CASCADE, verbose_name='')
+    user = models.ForeignKey(get_user_model(), related_name='departures', on_delete=models.CASCADE, verbose_name='')
+    norm = models.ForeignKey(Norm, related_name="departures", on_delete=models.CASCADE, verbose_name='')
 
     def __str__(self):
         return f'{self.date} - {self.place_of_work}'
@@ -60,12 +64,27 @@ class Departure(models.Model):
     class Meta:
         ordering = ["-date", "-departure_time"]
 
-    # def save(self, *args, **kwargs):
-    #     if not self.card.entries.count():
-    #         self.probeg_start = self.card.start
-    #     else:
-    #         entry = Departure.objects.filter(card=self.card).order_by('date').last()
-    #         self.probeg_start = entry.probeg_start + 40
-    #     super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        fuel_consumption = 0
+        if self.distance:
+            fuel_consumption += self.distance * self.norm.liter_per_km
+        if self.with_pump:
+            fuel_consumption += self.with_pump * self.norm.work_with_pump_liter_per_min
+        if self.without_pump:
+            fuel_consumption += self.without_pump * self.norm.work_without_pump_liter_per_min
+        self.fuel_consumption = fuel_consumption
+        super().save(*args, **kwargs)
 
-# todo просмотреть все поля на not null или null
+    def clean(self):
+        super().clean()
+        if self.distance is not None and self.mileage_end is None:
+            self.mileage_end = self.mileage_start + self.distance
+        elif self.distance is None and self.mileage_end is not None:
+            self.distance = self.mileage_end - self.mileage_start
+
+        if self.mileage_end is not None and self.distance is not None:
+            if self.mileage_start != self.mileage_end - self.distance:
+                raise ValidationError('Значение в поле "Пройдено" и(или) "Пробег после выезда" неверно')
+
+
+

@@ -54,12 +54,13 @@ class AddDepartureForm(forms.ModelForm):
         widget=DatePickerInput(attrs={'class': 'form-control'}))
 
     class Meta:
-        fields = ['card', 'date',
+        fields = ['date',
                   'departure_time', 'return_time',
                   'place_of_work', 'mileage_start',
                   'distance', 'mileage_end',
                   'with_pump', 'without_pump',
                   'refueled', 'fuel_consumption',
+                  'card', 'user', 'norm'
                   ]
         model = Departure
 
@@ -73,8 +74,10 @@ class AddDepartureForm(forms.ModelForm):
             'with_pump': forms.NumberInput(attrs={'class': 'form-control'}),
             'without_pump': forms.NumberInput(attrs={'class': 'form-control'}),
             'refueled': forms.NumberInput(attrs={'class': 'form-control'}),
-            'fuel_consumption': forms.NumberInput(attrs={'class': 'form-control'}),
-            'card': forms.Select(attrs={'hidden': 'hidden'})
+            'fuel_consumption': forms.HiddenInput(),
+            'card': forms.HiddenInput(),
+            'user': forms.HiddenInput(),
+            'norm': forms.HiddenInput()
         }
 
     def clean(self):
@@ -89,15 +92,20 @@ class AddDepartureForm(forms.ModelForm):
                     raise ValidationError(
                         f'Дата/время выезда ранее чем закончился предыдущий выезд - {prev_dt.strftime("%d-%m-%Y  %H:%M")}')
 
-        if not cd.get('distance') and not cd.get('mileage_end'):
+        if cd.get('distance') is None and cd.get('mileage_end') is None:
             self.add_error("distance", 'или это заполнить')
             self.add_error("mileage_end", 'или это заполнить')
             raise ValidationError(
-                'Одно из полей должно быть заполнено')
+                'Одно из указанных полей должно быть заполнено')
 
-        if cd.get('mileage_end') and cd.get('mileage_end') < cd.get("mileage_start"):
+        if cd.get('mileage_end') is not None and cd.get('mileage_end') < cd.get("mileage_start"):
             self.add_error('mileage_end', f'должно быть больше или равно {cd.get("mileage_start")}')
+
+        if not cd.get('distance') and not cd.get('with_pump') and not cd.get('without_pump'):
+            self.add_error("with_pump", 'или это заполнить')
+            self.add_error("without_pump", 'или это заполнить')
+            raise ValidationError(
+                'Одно из указанных полей должно быть заполнено')
 
         return cd
 
-# todo сделать clean

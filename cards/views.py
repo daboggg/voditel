@@ -75,6 +75,8 @@ class AddDeparture(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, C
     def get_initial(self):
         initial = super().get_initial()
         initial['card'] = self.card
+        initial['user'] = self.request.user
+        initial['norm'] = self.card.norm
         departures = self.card.departures.all()
 
         if not departures:
