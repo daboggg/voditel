@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load common_filters %}
 {% block title %}
-    {{departure.date}} - {{ departure.place_of_work }}
+    {{ departure.place_of_work }}
 {% endblock %}
 
 {% block content %}
@@ -10,7 +10,7 @@
         <div class="card-header">
             <div>
                 <div class="display-6 text-center">
-                    {{departure.date}} - {{ departure.place_of_work }}
+                    {{ departure.place_of_work }}
                     <a class="link-secondary" href="#}">
                         <i class="text-danger ms-2 float-end bi bi-x-lg"></i>
                     </a>
@@ -66,7 +66,7 @@
                     </tr>
                     <tr>
                         <td>расход топлива (л)</td>
-                        <td><span class="float-end badge bg-secondary">{{ departure.fuel_consumption }}</span></td>
+                        <td><span class="float-end badge bg-secondary">{{ departure.fuel_consumption|floatformat:2 }}</span></td>
                     </tr>
                     <tr>
                         <td>карточка</td>
