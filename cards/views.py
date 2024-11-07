@@ -2,10 +2,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DetailView, UpdateView
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
 from cards.forms import AddCardForm, AddDepartureForm
-from cards.models import Card
+from cards.models import Card, Departure
 from mixins import ErrorMessageMixin
 
 
@@ -38,6 +38,13 @@ class DetailCard(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['title'] = f'{self.object}'
+        res = dict()
+        for item in self.object.departures.all():
+            if item.date not in res:
+                res[item.date] = []
+            res.get(item.date).append(item)
+        ctx['departures'] = res
+
         return ctx
 
 
@@ -55,12 +62,19 @@ class UpdateCard(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, Upd
         return kwargs
 
 
+class DeleteCard(DeleteView):
+    model = Card
+    success_url = reverse_lazy("list_card")
+
+
 class AddDeparture(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, CreateView):
     form_class = AddDepartureForm
     template_name = 'cards/add_departure.html'
-    success_url = reverse_lazy('home')
     success_message = "Выезд добавлен"
     error_message = 'Ошибка!'
+
+    def get_success_url(self):
+        return reverse_lazy('detail_card', kwargs={'pk': self.card.id})
 
     def setup(self, request, *args, **kwargs):
         self.card = get_object_or_404(Card, pk=kwargs['pk'])
@@ -84,6 +98,14 @@ class AddDeparture(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, C
         else:
             initial['mileage_start'] = departures.first().mileage_end
         return initial
+
+
+class DetailDeparture(LoginRequiredMixin, DetailView):
+    model = Departure
+    template_name = 'cards/detail_departure.html'
+    context_object_name = 'departure'
+
+
 
 
 

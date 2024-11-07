@@ -12,9 +12,13 @@
             <div>
                 <div class="display-6 text-center">
                     {{ title }}
+                    <a class="link-secondary" href="{% url 'delete_card' card.id %}">
+                        <i class="text-danger ms-2 float-end bi bi-x-lg"></i>
+                    </a>
                     <a class="link-secondary" href="{% url 'edit_card' card.id %}">
                         <i class="float-end bi bi-gear"></i>
                     </a>
+
                 </div>
             </div>
         </div>
@@ -24,15 +28,15 @@
                 <tbody>
                 <tr>
                     <td>остаток топлива на 1 число месяца:</td>
-                    <td><span class="badge bg-secondary">{{ card.remaining_fuel }} л</span></td>
+                    <td><span class="float-end badge bg-secondary">{{ card.remaining_fuel }} л</span></td>
                 </tr>
                 <tr>
                     <td>пробег на 1 число месяца:</td>
-                    <td><span class="badge bg-secondary">{{ card.mileage }} км</span></td>
+                    <td><span class="float-end badge bg-secondary">{{ card.mileage }} км</span></td>
                 </tr>
                 <tr>
                     <td>норма расхода топлива:</td>
-                    <td><span class="badge bg-secondary">{{ card.norm }}</span></td>
+                    <td><span class="float-end badge bg-secondary">{{ card.norm }}</span></td>
                 </tr>
                 </tbody>
             </table>
@@ -41,6 +45,57 @@
         </div>
 
 
+    </div>
+
+    <div class="accordion" id="accordionExample">
+
+        {% for key, val in departures.items %}
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="bg-secondary accordion-button {% if not forloop.first %} collapsed {% endif %}"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#{{ forloop.counter }}"
+                            aria-expanded="{% if forloop.first %} true {% else %} false {% endif %}"
+                            aria-controls="{{ forloop.counter }}">
+                        <span class=" h4 text-white">{{ key }}</span>
+                    </button>
+                </h2>
+                <div id="{{ forloop.counter }}"
+                     class="accordion-collapse collapse {% if forloop.first %} show {% endif %}"
+                     aria-labelledby="headingOne"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+
+
+                        <table class="table  table-striped">
+                            <tbody>
+                            {% for v in val %}
+                                <tr>
+                                    <td>
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-10">
+                                                <a class="btn" href="{% url 'detail_departure' v.pk %}"><span
+                                                        class="h5">{{ v.show_departure }}</span></a>
+                                            </div>
+                                            <div class="col">
+                                                <a class="link-secondary" href="{% url 'delete_card' card.id %}">
+                                                    <i class="text-danger float-end bi bi-x-lg"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
 
     </div>
+
 {% endblock %}
+
+{#todo сделать пагинацию выездов#}

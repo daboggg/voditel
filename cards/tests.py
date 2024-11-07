@@ -1,15 +1,10 @@
-from django.test import TestCase
-from datetime import date
-from datetime import time
+from itertools import groupby
+from operator import attrgetter
+from django.db.models.functions import TruncDate
 
-# print(date.fromisoformat("2024-12-22").year)
+from cards.models import Departure
 
-# Create your tests here.
-
-# print(time(12,12,12)< time(13,16,16))
-
-
-# import locale
-# locale.setlocale(locale.LC_TIME, 'ru_RU.UTF-8')
-
-# print(type(None))
+queryset = Departure.objects.annotate(
+    created_at_date=TruncDate('date'),
+).order_by('date')
+groupedset = groupby(queryset, attrgetter('created_at_date'))

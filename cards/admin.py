@@ -23,7 +23,19 @@ class CardAdmin(admin.ModelAdmin):
 
 @admin.register(Departure)
 class DepartureAdmin(admin.ModelAdmin):
-    fields = ['date', 'time',
-              'place_of_work', 'mileage_start',
-              'distance', 'mileage_end',
-              'card']
+    fields = [
+        'date',
+        'departure_time',
+        'return_time',
+        'place_of_work',
+        'mileage_start',
+        'distance',
+        'mileage_end',
+        'with_pump',
+        'without_pump',
+        'refueled',
+        'fuel_consumption',
+        'card',
+        'user',
+        'norm',
+    ]

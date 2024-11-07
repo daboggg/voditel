@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load common_filters %}
+{% block title %}
+    {{departure.date}} - {{ departure.place_of_work }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <div class="display-6 text-center">
+                    {{departure.date}} - {{ departure.place_of_work }}
+                    <a class="link-secondary" href="#}">
+                        <i class="text-danger ms-2 float-end bi bi-x-lg"></i>
+                    </a>
+                    <a class="link-secondary" href="#">
+                        <i class="float-end bi bi-gear"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>дата выезда</td>
+                        <td><span class="float-end badge bg-secondary">{{ departure.date }}</span></td>
+                    </tr>
+                    <tr>
+                        <td>время выезда</td>
+                        <td><span class="float-end badge bg-secondary">{{ departure.departure_time }}</span></td>
+                    </tr>
+                    <tr>
+                        <td>время возвращения</td>
+                        <td><span class="float-end badge bg-secondary">{{ departure.return_time }}</span></td>
+                    </tr>
+                    <tr>
+                        <td>место/цель выезда</td>
+                        <td><span class="float-end badge bg-secondary">{{ departure.place_of_work }}</span></td>
+                    </tr>
+                    <tr>
+                        <td>пробег перед выездом (км)</td>
+                        <td><span class="float-end badge bg-secondary">{{ departure.mileage_start }}</span></td>
+                    </tr>
+                    <tr>
+                        <td>пройдено (км)</td>
+                        <td><span class="float-end badge bg-secondary">{{ departure.distance }}</span></td>
+                    </tr>
+                    <tr>
+                        <td>пробег после выезда (км)</td>
+                        <td><span class="float-end badge bg-secondary">{{ departure.mileage_end }}</span></td>
+                    </tr>
+                    <tr>
+                        <td>с насосом (мин)</td>
+                        <td><span class="float-end badge bg-secondary">{% if departure.with_pump %}{{ departure.with_pump}}{% else %}-{% endif %}</span></td>
+                    </tr>
+                    <tr>
+                        <td>без насоса (мин)</td>
+                        <td><span class="float-end badge bg-secondary">{% if departure.without_pump %}{{ departure.without_pump}}{% else %}-{% endif %}</span></td>
+                    </tr>
+                    <tr>
+                        <td>заправлено (л)</td>
+                        <td><span class="float-end badge bg-secondary">{% if departure.refueled %}{{ departure.refueled}}{% else %}-{% endif %}</span></td>
+                    </tr>
+                    <tr>
+                        <td>расход топлива (л)</td>
+                        <td><span class="float-end badge bg-secondary">{{ departure.fuel_consumption }}</span></td>
+                    </tr>
+                    <tr>
+                        <td>карточка</td>
+                        <td><span class="float-end badge bg-secondary">{{ departure.card }}</span></td>
+                    </tr>
+                    <tr>
+                        <td>пользователь</td>
+                        <td><span class="float-end badge bg-secondary">{{ departure.user }}</span></td>
+                    </tr>
+                    <tr>
+                        <td>норма</td>
+                        <td><span class="float-end badge bg-secondary">{{ departure.norm }}</span></td>
+                    </tr>
+
+
+
+
+
+{#                <tr>#}
+{#                    <td>пробег на 1 число месяца:</td>#}
+{#                    <td><span class="badge bg-secondary">{{ card.mileage }} км</span></td>#}
+{#                </tr>#}
+{#                <tr>#}
+{#                    <td>норма расхода топлива:</td>#}
+{#                    <td><span class="badge bg-secondary">{{ card.norm }}</span></td>#}
+{#                </tr>#}
+                </tbody>
+            </table>
+
+        </div>
+
+
+    </div>
+
+{% endblock %}
