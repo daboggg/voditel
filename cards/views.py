@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
-from cards.forms import AddCardForm, AddDepartureForm
+from cards.forms import CardAddForm, DepartureAddForm
 from cards.models import Card, Departure
 from mixins import ErrorMessageMixin
 
@@ -13,26 +13,26 @@ def home(request):
     return render(request, 'cards/home.html', {'title': 'Главная страница'})
 
 
-class ListCard(LoginRequiredMixin, ListView):
+class CardList(LoginRequiredMixin, ListView):
     model = Card
-    template_name = "cards/list_card.html"
+    template_name = "cards/card_list.html"
     extra_context = {'title': 'Список карточек'}
     context_object_name = 'cards'
     paginate_by = 7
 
 
-class AddCard(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, CreateView):
-    form_class = AddCardForm
-    template_name = 'cards/add_card.html'
+class CardAdd(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, CreateView):
+    form_class = CardAddForm
+    template_name = 'cards/card_add.html'
     extra_context = {'title': 'Добавить карточку'}
     # success_url = reverse_lazy('list_card')
     success_message = "Карточка создана"
     error_message = 'Ошибка!'
 
 
-class DetailCard(LoginRequiredMixin, DetailView):
+class CardDetail(LoginRequiredMixin, DetailView):
     model = Card
-    template_name = 'cards/detail_card.html'
+    template_name = 'cards/card_detail.html'
     context_object_name = 'card'
 
     def get_context_data(self, **kwargs):
@@ -48,12 +48,12 @@ class DetailCard(LoginRequiredMixin, DetailView):
         return ctx
 
 
-class UpdateCard(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, UpdateView):
+class CardUpdate(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, UpdateView):
     model = Card
-    form_class = AddCardForm
+    form_class = CardAddForm
     success_message = "Данные изменены"
     error_message = "Ошибка!"
-    template_name = 'cards/add_card.html'
+    template_name = 'cards/card_add.html'
     extra_context = {'title': 'Изменить карточку'}
 
     def get_form_kwargs(self):
@@ -62,14 +62,14 @@ class UpdateCard(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, Upd
         return kwargs
 
 
-class DeleteCard(DeleteView):
+class CardDelete(DeleteView):
     model = Card
     success_url = reverse_lazy("list_card")
 
 
-class AddDeparture(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, CreateView):
-    form_class = AddDepartureForm
-    template_name = 'cards/add_departure.html'
+class DepartureAdd(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, CreateView):
+    form_class = DepartureAddForm
+    template_name = 'cards/departure_add.html'
     success_message = "Выезд добавлен"
     error_message = 'Ошибка!'
 
@@ -100,9 +100,9 @@ class AddDeparture(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, C
         return initial
 
 
-class DetailDeparture(LoginRequiredMixin, DetailView):
+class DepartureDetail(LoginRequiredMixin, DetailView):
     model = Departure
-    template_name = 'cards/detail_departure.html'
+    template_name = 'cards/departure_detail.html'
     context_object_name = 'departure'
 
 

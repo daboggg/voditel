@@ -12,10 +12,10 @@
             <div>
                 <div class="display-6 text-center">
                     {{ title }}
-                    <a class="link-secondary" href="{% url 'delete_card' card.id %}">
+                    <a class="link-secondary" href="{% url 'card_delete' card.id %}">
                         <i class="text-danger ms-2 float-end bi bi-x-lg"></i>
                     </a>
-                    <a class="link-secondary" href="{% url 'edit_card' card.id %}">
+                    <a class="link-secondary" href="{% url 'card_edit' card.id %}">
                         <i class="float-end bi bi-gear"></i>
                     </a>
 
@@ -41,7 +41,7 @@
                 </tbody>
             </table>
 
-            <a href="{% url 'add_departure' card.id %}" class="btn btn-secondary">Добавить выезд</a>
+            <a href="{% url 'departure_add' card.id %}" class="btn btn-secondary">Добавить выезд</a>
         </div>
 
 
@@ -75,11 +75,11 @@
                                     <td>
                                         <div class="row d-flex align-items-center">
                                             <div class="col-10">
-                                                <a class="btn" href="{% url 'detail_departure' v.pk %}"><span
+                                                <a class="btn" href="{% url 'departure_detail' v.pk %}"><span
                                                         class="h5">{{ v.show_departure }}</span></a>
                                             </div>
                                             <div class="col">
-                                                <a class="link-secondary" href="{% url 'delete_card' card.id %}">
+                                                <a class="link-secondary" href="#">
                                                     <i class="text-danger float-end bi bi-x-lg"></i>
                                                 </a>
                                             </div>

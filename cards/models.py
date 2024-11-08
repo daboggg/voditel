@@ -35,7 +35,7 @@ class Card(models.Model):
         return f'{self.truck.name} - {get_rus_month_year(self.month)}'
 
     def get_absolute_url(self):
-        return reverse('detail_card', kwargs={'pk': self.id})
+        return reverse('card_detail', kwargs={'pk': self.id})
 
     class Meta:
         ordering = ["-month"]
@@ -82,7 +82,7 @@ class Departure(models.Model):
         ordering = ["-date", "-departure_time"]
 
     def get_absolute_url(self):
-        return reverse('detail_departure', kwargs={'pk': self.id})
+        return reverse('departure_detail', kwargs={'pk': self.id})
 
     def save(self, *args, **kwargs):
         fuel_consumption = 0

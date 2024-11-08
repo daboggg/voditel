@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 from cards.models import Card, Truck, Norm, Departure
 
 
-class AddCardForm(forms.ModelForm):
+class CardAddForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.update = kwargs.pop("update", False)
         super().__init__(*args, **kwargs)
@@ -47,7 +47,7 @@ class AddCardForm(forms.ModelForm):
                 raise ValidationError('Такая карточка уже существует')
 
 
-class AddDepartureForm(forms.ModelForm):
+class DepartureAddForm(forms.ModelForm):
     date = forms.DateField(
         label='Дата выезда',
         initial=date.today(),

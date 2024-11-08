@@ -11,7 +11,7 @@
             <ul class="list-group">
                 {% for card in cards %}
                     <li class="list-group-item">
-                        <a class="link-secondary" href="{% url 'detail_card' card.id %}">{{ card }}</a>
+                        <a class="link-secondary" href="{% url 'card_detail' card.id %}">{{ card }}</a>
                     </li>
                 {% endfor %}
             </ul>
@@ -56,7 +56,7 @@
             </nav>
             {% endif %}
 
-            <a href="{% url 'add_card' %}" class="btn btn-secondary mt-4">Добавить карточку</a>
+            <a href="{% url 'card_add' %}" class="btn btn-secondary mt-4">Добавить карточку</a>
         </div>
     </div>
 {% endblock %}
