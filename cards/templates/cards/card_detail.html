@@ -41,7 +41,11 @@
                 </tbody>
             </table>
 
-            <a href="{% url 'departure_add' card.id %}" class="btn btn-secondary">Добавить выезд</a>
+            <div class="d-flex justify-content-between">
+                <a href="{% url 'departure_add' card.id %}" class="btn btn-secondary">+ Выезд</a>
+                <a href="{% url 'departure_add' card.id %}" class="btn btn-secondary">+ ЕТО</a>
+                <a href="{% url 'departure_add' card.id %}" class="btn btn-secondary">+ Дозор</a>
+            </div>
         </div>
 
 
@@ -49,7 +53,7 @@
 
     <div class="accordion" id="accordionExample">
 
-        {% for key, val in departures.items %}
+        {% for deps in departures %}
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
                     <button class="bg-secondary accordion-button {% if not forloop.first %} collapsed {% endif %}"
@@ -58,7 +62,7 @@
                             data-bs-target="#{{ forloop.counter }}"
                             aria-expanded="{% if forloop.first %} true {% else %} false {% endif %}"
                             aria-controls="{{ forloop.counter }}">
-                        <span class=" h4 text-white">{{ key }}</span>
+                        <span class=" h4 text-white">{{ deps.0.date }} - {{ deps|length }} выезд(-а -ов)</span>
                     </button>
                 </h2>
                 <div id="{{ forloop.counter }}"
@@ -70,16 +74,16 @@
 
                         <table class="table  table-striped">
                             <tbody>
-                            {% for v in val %}
+                            {% for dep in deps %}
                                 <tr>
                                     <td>
                                         <div class="row d-flex align-items-center">
                                             <div class="col-10">
-                                                <a class="btn" href="{% url 'departure_detail' v.pk %}"><span
-                                                        class="h5">{{ v.show_departure }}</span></a>
+                                                <a class="btn" href="{% url 'departure_detail' dep.pk %}"><span
+                                                        class="h5">{{ dep.show_departure }}</span></a>
                                             </div>
                                             <div class="col">
-                                                <a class="link-secondary" href="#">
+                                                <a class="link-secondary" href="{% url 'departure_delete' dep.pk %}">
                                                     <i class="text-danger float-end bi bi-x-lg"></i>
                                                 </a>
                                             </div>
@@ -96,6 +100,13 @@
 
     </div>
 
-{% endblock %}
+    {% pagination %}
+    <div class="row">
+        <div class="col d-flex justify-content-between mx-3 my-3">
+            <a href="{% url 'departure_add' card.id %}" class="btn btn-secondary">+ Выезд</a>
+            <a href="{% url 'departure_add' card.id %}" class="btn btn-secondary">+ ЕТО</a>
+            <a href="{% url 'departure_add' card.id %}" class="btn btn-secondary">+ Дозор</a>
+        </div>
+    </div>
 
-{#todo сделать пагинацию выездов#}
+{% endblock %}

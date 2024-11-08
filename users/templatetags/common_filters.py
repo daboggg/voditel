@@ -5,6 +5,16 @@ from django import template
 register = template.Library()
 
 
+@register.inclusion_tag("cards/includes/pagination.html", takes_context=True)
+def pagination(context):
+    return {
+        'page_obj': context['page_obj'],
+        'paginator': context['paginator'],
+
+    }
+
+
+
 @register.filter
 def alert_class(value):
     alerts = {

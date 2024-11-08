@@ -109,3 +109,61 @@ class DepartureAddForm(forms.ModelForm):
 
         return cd
 
+
+class DepartureUpdateForm(forms.ModelForm):
+    date = forms.DateField(
+        label='Дата выезда',
+        widget=DatePickerInput(attrs={'class': 'form-control'}))
+
+    class Meta:
+        fields = ['date',
+                  'departure_time', 'return_time',
+                  'place_of_work', 'mileage_start',
+                  'distance', 'mileage_end',
+                  'with_pump', 'without_pump',
+                  'refueled',
+                  'card', 'norm', 'user', 'fuel_consumption',
+                  ]
+        model = Departure
+
+        widgets = {
+            'departure_time': TimePickerInput(attrs={'class': 'form-control'}),
+            'return_time': TimePickerInput(attrs={'class': 'form-control'}),
+            'place_of_work': forms.Textarea(attrs={'rows': 2, 'class': 'form-control'}),
+            'mileage_start': forms.NumberInput(attrs={'class': 'form-control', 'readonly': 'readonly'}),
+            'distance': forms.NumberInput(attrs={'class': 'form-control'}),
+            'mileage_end': forms.NumberInput(attrs={'class': 'form-control'}),
+            'with_pump': forms.NumberInput(attrs={'class': 'form-control'}),
+            'without_pump': forms.NumberInput(attrs={'class': 'form-control'}),
+            'refueled': forms.NumberInput(attrs={'class': 'form-control'}),
+            'fuel_consumption': forms.HiddenInput(),
+            'card': forms.Select(attrs={'class': 'form-control'}),
+            'norm': forms.Select(attrs={'class': 'form-control'}),
+            'user': forms.HiddenInput(),
+        }
+        labels = {
+            'user': "",
+            'fuel_consumption': "",
+        }
+
+    def clean(self):
+        cd = super().clean()
+
+        if cd.get('distance') is None and cd.get('mileage_end') is None:
+            self.add_error("distance", 'или это заполнить')
+            self.add_error("mileage_end", 'или это заполнить')
+            raise ValidationError(
+                'Одно из указанных полей должно быть заполнено')
+
+        if cd.get('mileage_end') is not None and cd.get('mileage_end') < cd.get("mileage_start"):
+            self.add_error('mileage_end', f'должно быть больше или равно {cd.get("mileage_start")}')
+
+        if not cd.get('distance') and not cd.get('with_pump') and not cd.get('without_pump'):
+            self.add_error("with_pump", 'или это заполнить')
+            self.add_error("without_pump", 'или это заполнить')
+            raise ValidationError(
+                'Одно из указанных полей должно быть заполнено')
+
+        return cd
+
+# todo сделать валидацию  DepartureUpdateForm

@@ -1,10 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
-from cards.forms import CardAddForm, DepartureAddForm
+from cards.forms import CardAddForm, DepartureAddForm, DepartureUpdateForm
 from cards.models import Card, Departure
 from mixins import ErrorMessageMixin
 
@@ -25,7 +26,7 @@ class CardAdd(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, Create
     form_class = CardAddForm
     template_name = 'cards/card_add.html'
     extra_context = {'title': 'Добавить карточку'}
-    # success_url = reverse_lazy('list_card')
+    # success_url = reverse_lazy('card-list')
     success_message = "Карточка создана"
     error_message = 'Ошибка!'
 
@@ -43,7 +44,11 @@ class CardDetail(LoginRequiredMixin, DetailView):
             if item.date not in res:
                 res[item.date] = []
             res.get(item.date).append(item)
-        ctx['departures'] = res
+        paginator = Paginator(list(res.values()), 7)
+        page_obj = paginator.page(int(self.request.GET.get('page', 1)))
+        ctx['paginator'] = paginator
+        ctx['page_obj'] = page_obj
+        ctx['departures'] = page_obj.object_list
 
         return ctx
 
@@ -62,9 +67,9 @@ class CardUpdate(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, Upd
         return kwargs
 
 
-class CardDelete(DeleteView):
+class CardDelete(LoginRequiredMixin, DeleteView):
     model = Card
-    success_url = reverse_lazy("list_card")
+    success_url = reverse_lazy("card_list")
 
 
 class DepartureAdd(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, CreateView):
@@ -74,7 +79,7 @@ class DepartureAdd(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, C
     error_message = 'Ошибка!'
 
     def get_success_url(self):
-        return reverse_lazy('detail_card', kwargs={'pk': self.card.id})
+        return reverse_lazy('card_detail', kwargs={'pk': self.card.id})
 
     def setup(self, request, *args, **kwargs):
         self.card = get_object_or_404(Card, pk=kwargs['pk'])
@@ -106,8 +111,30 @@ class DepartureDetail(LoginRequiredMixin, DetailView):
     context_object_name = 'departure'
 
 
+class DepartureDelete(LoginRequiredMixin, DeleteView):
+    model = Departure
+
+    def get_success_url(self):
+        return reverse_lazy('card_detail', kwargs={'pk': self.object.card.pk})
 
 
+class DepartureUpdate(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, UpdateView):
+    model = Departure
+    form_class = DepartureUpdateForm
+    success_message = "Данные изменены"
+    error_message = "Ошибка!"
+    template_name = 'cards/departure_edit.html'
+    extra_context = {'title': 'Изменить данные'}
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['user'] = self.request.user
+        return initial
+
+    # def get_form_kwargs(self):
+    #     kwargs = super().get_form_kwargs()
+    #     kwargs['update'] = True
+    #     return kwargs
 
 
 

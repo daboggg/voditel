@@ -11,10 +11,10 @@
             <div>
                 <div class="display-6 text-center">
                     {{ departure.place_of_work }}
-                    <a class="link-secondary" href="#}">
+                    <a class="link-secondary" href="{% url 'departure_delete' departure.pk %}">
                         <i class="text-danger ms-2 float-end bi bi-x-lg"></i>
                     </a>
-                    <a class="link-secondary" href="#">
+                    <a class="link-secondary" href="{% url 'departure_edit' departure.pk %}">
                         <i class="float-end bi bi-gear"></i>
                     </a>
                 </div>
@@ -69,7 +69,7 @@
                 </tr>
                 <tr>
                     <td>расход топлива (л)</td>
-                    <td><span class="float-end badge bg-secondary">{{ departure.fuel_consumption|floatformat:2 }}</span>
+                    <td><span class="float-end badge bg-secondary">{{ departure.fuel_consumption }}</span>
                     </td>
                 </tr>
                 <tr>
