@@ -1,6 +1,9 @@
+from _decimal import Decimal
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.paginator import Paginator
+from django.db.models import Sum, F
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
@@ -40,6 +43,16 @@ class CardDetail(LoginRequiredMixin, DetailView):
         ctx = super().get_context_data(**kwargs)
         ctx['title'] = f'{self.object}'
         res = dict()
+
+        # актуальный остаток топлива в баках
+        fuel_in_tanks = self.object.departures.aggregate(
+            fuel_in_tanks=F('card__remaining_fuel') -
+                          Sum('fuel_consumption') +
+                          Sum('refueled', default=0))\
+            .get('fuel_in_tanks')
+        ctx['fuel_in_tanks'] = fuel_in_tanks.normalize() if fuel_in_tanks else self.object.remaining_fuel
+
+        # для пагинации выездов
         for item in self.object.departures.all():
             if item.date not in res:
                 res[item.date] = []
