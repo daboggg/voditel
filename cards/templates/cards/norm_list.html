@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load common_filters %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    <div class="my-4 display-6 text-center">{% if norms %}{{ title }}{% else %}Норм нет{% endif %} </div>
+    <div class="justify-content-center row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for norm in norms %}
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <div class="display-6 text-center">
+                                {{ norm.season }}
+                                <a class="link-secondary" href="#">
+                                    <i class="text-danger ms-2 float-end bi bi-x-lg"></i>
+                                </a>
+                                <a class="link-secondary" href="#">
+                                    <i class="float-end bi bi-gear"></i>
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <td>пробег (л/км):</td>
+                                <td><span class="float-end badge bg-secondary">{{ norm.liter_per_km }} л</span></td>
+                            </tr>
+                            <tr>
+                                <td>работа с насосом (л/мин):</td>
+                                <td><span class="float-end badge bg-secondary">{{ norm.work_with_pump_liter_per_min }} км</span></td>
+                            </tr>
+                            <tr>
+                                <td>работа без насоса (л/мин):</td>
+                                <td><span class="float-end badge bg-secondary">{{ norm.work_without_pump_liter_per_min }}</span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+
+{% endblock %}

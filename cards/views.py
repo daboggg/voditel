@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
 from cards.forms import CardAddForm, DepartureAddForm, DepartureUpdateForm
-from cards.models import Card, Departure
+from cards.models import Card, Departure, Norm
 from mixins import ErrorMessageMixin
 
 
@@ -150,7 +150,11 @@ class DepartureUpdate(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin
     #     return kwargs
 
 
-
+class NormList(LoginRequiredMixin, ListView):
+    model = Norm
+    template_name = "cards/norm_list.html"
+    extra_context = {'title': 'Нормы'}
+    context_object_name = 'norms'
 
 
 

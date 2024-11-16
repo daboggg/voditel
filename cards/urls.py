@@ -14,5 +14,7 @@ urlpatterns = [
     path('departure-delete/<int:pk>/', views.DepartureDelete.as_view(), name='departure_delete'),
     path('departure-edit/<int:pk>/', views.DepartureUpdate.as_view(), name='departure_edit'),
 
+    path('norms/', views.NormList.as_view(), name='norm_list'),
+
     path('', views.home, name='home')
 ]
