@@ -165,5 +165,3 @@ class DepartureUpdateForm(forms.ModelForm):
                 'Одно из указанных полей должно быть заполнено')
 
         return cd
-
-# todo сделать валидацию  DepartureUpdateForm

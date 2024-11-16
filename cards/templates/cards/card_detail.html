@@ -40,7 +40,7 @@
                 </tr>
                 <tr>
                     <td>топливо в баках:</td>
-                    <td><span class="float-end badge bg-secondary">{{ fuel_in_tanks }} л</span></td>
+                    <td><span class="float-end badge {% if fuel_in_tanks < 0 %} bg-danger {% elif fuel_in_tanks < 100 %} bg-warning {% else %} bg-secondary {% endif %} ">{{ fuel_in_tanks }} л</span></td>
                 </tr>
                 </tbody>
             </table>
@@ -117,5 +117,3 @@
     {% endif %}
 
 {% endblock %}
-
-{#todo сделать цветной остаток по топливу#}
