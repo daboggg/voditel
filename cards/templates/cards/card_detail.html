@@ -66,7 +66,7 @@
                             data-bs-target="#{{ forloop.counter }}"
                             aria-expanded="{% if forloop.first %} true {% else %} false {% endif %}"
                             aria-controls="{{ forloop.counter }}">
-                        <span class=" h4 text-white">{{ deps.0.date }} - {{ deps|length }} выезд(-а -ов)</span>
+                        <span class=" h4 text-white">{{ deps.0.date }} - ({{ deps|length }})</span>
                     </button>
                 </h2>
                 <div id="{{ forloop.counter }}"
