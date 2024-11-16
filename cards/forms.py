@@ -17,7 +17,7 @@ class CardAddForm(forms.ModelForm):
                             initial=date.today())
     mileage = forms.IntegerField(label="пробег на 1 число месяца:",
                                  widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    remaining_fuel = forms.FloatField(label='остаток топлива на 1 число месяца:',
+    remaining_fuel = forms.DecimalField(label='остаток топлива на 1 число месяца:',
                                       widget=forms.NumberInput(attrs={'class': 'form-control'}))
     truck = forms.ModelChoiceField(queryset=Truck.objects.all(),
                                    label='автомобиль:',
