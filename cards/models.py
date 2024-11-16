@@ -15,7 +15,7 @@ class Truck(models.Model):
 
 
 class Norm(models.Model):
-    season = models.CharField(max_length=20, verbose_name="название сезона и марка авто")
+    season = models.CharField(max_length=20, verbose_name="марка авто и сезон")
     liter_per_km = models.DecimalField(max_digits=4, decimal_places=2, verbose_name="пробег (л/км)")
     work_with_pump_liter_per_min = models.DecimalField(max_digits=4, decimal_places=2, verbose_name="работа с насосом (л/мин)")
     work_without_pump_liter_per_min = models.DecimalField(max_digits=4, decimal_places=2, verbose_name="работа без насоса (л/мин)")

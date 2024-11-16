@@ -15,10 +15,10 @@
                         <div>
                             <div class="display-6 text-center">
                                 {{ norm.season }}
-                                <a class="link-secondary" href="#">
+                                <a class="link-secondary" href="{% url 'norm_delete' norm.pk %}">
                                     <i class="text-danger ms-2 float-end bi bi-x-lg"></i>
                                 </a>
-                                <a class="link-secondary" href="#">
+                                <a class="link-secondary" href="{% url 'norm_edit' norm.pk %}">
                                     <i class="float-end bi bi-gear"></i>
                                 </a>
 
@@ -47,8 +47,11 @@
                 </div>
             </div>
         {% endfor %}
-    </div>
 
+    </div>
+<div class="text-center">
+<a href="{% url 'norm_add' %}" class="btn btn-secondary mt-4">Добавить норму</a>
+</div>
 
 
 {% endblock %}

@@ -157,10 +157,29 @@ class NormList(LoginRequiredMixin, ListView):
     context_object_name = 'norms'
 
 
+class NormAdd(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, CreateView):
+    model = Norm
+    template_name = 'cards/norm_add.html'
+    extra_context = {'title': 'Добавить норму'}
+    success_url = reverse_lazy('norm_list')
+    success_message = "Норма создана"
+    error_message = 'Ошибка!'
+    fields = '__all__'
 
 
+class NormDelete(LoginRequiredMixin, DeleteView):
+    model = Norm
+    success_url = reverse_lazy('norm_list')
 
 
+class NormUpdate(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, UpdateView):
+    model = Norm
+    fields = '__all__'
+    success_url = reverse_lazy('norm_list')
+    success_message = "Данные изменены"
+    error_message = "Ошибка!"
+    template_name = 'cards/norm_add.html'
+    extra_context = {'title': 'Изменить норму'}
 
 
 

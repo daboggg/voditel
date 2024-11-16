@@ -15,6 +15,9 @@ urlpatterns = [
     path('departure-edit/<int:pk>/', views.DepartureUpdate.as_view(), name='departure_edit'),
 
     path('norms/', views.NormList.as_view(), name='norm_list'),
+    path('norm-add/', views.NormAdd.as_view(), name='norm_add'),
+    path('norm-delete/<int:pk>/', views.NormDelete.as_view(), name='norm_delete'),
+    path('norm-edit/<int:pk>/', views.NormUpdate.as_view(), name='norm_edit'),
 
     path('', views.home, name='home')
 ]
