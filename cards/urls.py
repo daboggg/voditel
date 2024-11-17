@@ -19,5 +19,7 @@ urlpatterns = [
     path('norm-delete/<int:pk>/', views.NormDelete.as_view(), name='norm_delete'),
     path('norm-edit/<int:pk>/', views.NormUpdate.as_view(), name='norm_edit'),
 
+    path('report/<int:pk>/', views.ReportDetail.as_view(), name='report_detail'),
+
     path('', views.home, name='home')
 ]

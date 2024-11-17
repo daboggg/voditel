@@ -48,7 +48,7 @@ class CardDetail(LoginRequiredMixin, DetailView):
         fuel_in_tanks = self.object.departures.aggregate(
             fuel_in_tanks=F('card__remaining_fuel') -
                           Sum('fuel_consumption') +
-                          Sum('refueled', default=0))\
+                          Sum('refueled', default=0)) \
             .get('fuel_in_tanks')
         ctx['fuel_in_tanks'] = fuel_in_tanks.normalize() if fuel_in_tanks else self.object.remaining_fuel
 
@@ -182,4 +182,27 @@ class NormUpdate(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, Upd
     extra_context = {'title': 'Изменить норму'}
 
 
+class ReportDetail(LoginRequiredMixin, DetailView):
+    model = Card
+    template_name = 'cards/report_detail.html'
+    context_object_name = 'report'
 
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['title'] = f'Отчет {self.object}'
+
+        report_data = self.object.departures.aggregate(
+            total_distance=Sum('distance', default=0),
+            total_mileage_consumption=Sum('distance', default=0) * self.object.norm.liter_per_km,
+            total_time_with_pump=Sum('with_pump', default=0),
+            total_with_pump_consumption=Sum('with_pump', default=0) * self.object.norm.work_with_pump_liter_per_min,
+            total_time_without_pump=Sum('without_pump', default=0),
+            total_without_pump_consumption=Sum('without_pump', default=0) * self.object.norm.work_without_pump_liter_per_min,
+            total_refueled=Sum('refueled', default=0),
+            total_fuel_consumption=F('total_mileage_consumption') + F('total_with_pump_consumption') +F('total_without_pump_consumption'),
+            remaining_fuel_end_month=self.object.remaining_fuel + F('total_refueled') - F('total_fuel_consumption')
+        )
+        print(report_data)
+        ctx['report_data'] = report_data
+
+        return ctx

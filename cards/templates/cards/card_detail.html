@@ -13,7 +13,7 @@
                 <div class="display-6 text-center">
                     {{ title }}
                     <a class="link-secondary" href="{% url 'card_delete' card.id %}">
-                        <i class="text-danger ms-2 float-end bi bi-x-lg"></i>
+                        <i class="ms-3 float-end bi bi-trash"></i>
                     </a>
                     <a class="link-secondary" href="{% url 'card_edit' card.id %}">
                         <i class="float-end bi bi-gear"></i>
@@ -26,6 +26,13 @@
 
             <table class="table">
                 <tbody>
+                {% if departures %}
+                    <tr>
+                        <td>получить отчет:</td>
+                        <td><span class="float-end"><a href="{% url 'report_detail' card.pk %}"
+                                                       class="btn btn-outline-secondary fw-bold">ОТЧЕТ</a></span></td>
+                    </tr>
+                {% endif %}
                 <tr>
                     <td>остаток топлива на 1 число месяца:</td>
                     <td><span class="float-end badge bg-secondary">{{ card.remaining_fuel }} л</span></td>
@@ -40,7 +47,9 @@
                 </tr>
                 <tr>
                     <td>топливо в баках:</td>
-                    <td><span class="float-end badge {% if fuel_in_tanks < 0 %} bg-danger {% elif fuel_in_tanks < 100 %} bg-warning {% else %} bg-secondary {% endif %} ">{{ fuel_in_tanks }} л</span></td>
+                    <td><span
+                            class="float-end badge {% if fuel_in_tanks < 0 %} bg-danger {% elif fuel_in_tanks < 100 %} bg-warning {% else %} bg-secondary {% endif %} ">{{ fuel_in_tanks }} л</span>
+                    </td>
                 </tr>
                 </tbody>
             </table>
