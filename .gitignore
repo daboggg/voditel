@@ -7,3 +7,4 @@ pg_data
 /static
 /media
 /media_prod
+cards/tests.py
