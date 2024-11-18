@@ -37,13 +37,13 @@ class CardAddForm(forms.ModelForm):
 
         # исключает перезапись карточки
         if self.update:
-            if Card.objects.filter(month=month, truck=truck).exists() \
-                    and self.instance.month != month \
-                    or Card.objects.filter(month=month, truck=truck).exists() \
+            if Card.objects.filter(month__month=month.month, truck=truck).exists() \
+                    and self.instance.month.month != month.month \
+                    or Card.objects.filter(month__month=month.month, truck=truck).exists() \
                     and self.instance.truck != truck:
                 raise ValidationError('Такая карточка уже существует')
         else:
-            if Card.objects.filter(month=month, truck=truck).exists():
+            if Card.objects.filter(month__month=month.month, truck=truck).exists():
                 raise ValidationError('Такая карточка уже существует')
 
 
