@@ -1,5 +1,3 @@
-from _decimal import Decimal
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.paginator import Paginator
@@ -115,6 +113,21 @@ class DepartureAdd(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, C
             initial['mileage_start'] = self.card.mileage
         else:
             initial['mileage_start'] = departures.first().mileage_end
+
+        if 'eto' in self.request.GET:
+            initial['departure_time'] = '08:00:00'
+            initial['return_time'] = '08:30:00'
+            initial['place_of_work'] = 'ЕТО'
+            initial['distance'] = 0
+            initial['without_pump'] = 5
+
+        if 'dozor' in self.request.GET:
+            initial['departure_time'] = '21:00:00'
+            initial['return_time'] = '22:00:00'
+            initial['place_of_work'] = 'Целевой дозор'
+            initial['distance'] = 4
+            initial['without_pump'] = 30
+
         return initial
 
 
@@ -202,7 +215,5 @@ class ReportDetail(LoginRequiredMixin, DetailView):
             total_fuel_consumption=F('total_mileage_consumption') + F('total_with_pump_consumption') +F('total_without_pump_consumption'),
             remaining_fuel_end_month=self.object.remaining_fuel + F('total_refueled') - F('total_fuel_consumption')
         )
-        print(report_data)
         ctx['report_data'] = report_data
-
         return ctx

@@ -56,8 +56,8 @@
 
             <div class="d-flex justify-content-between">
                 <a href="{% url 'departure_add' card.id %}" class="btn btn-secondary">+ Выезд</a>
-                <a href="#" class="btn btn-secondary">+ ЕТО</a>
-                <a href="#" class="btn btn-secondary">+ Дозор</a>
+                <a href="{% url 'departure_add' card.id %}?eto" class="btn btn-secondary">+ ЕТО</a>
+                <a href="{% url 'departure_add' card.id %}?dozor" class="btn btn-secondary">+ Дозор</a>
             </div>
         </div>
 
@@ -119,8 +119,8 @@
         <div class="row">
             <div class="col d-flex justify-content-between mx-3 my-3">
                 <a href="{% url 'departure_add' card.id %}" class="btn btn-secondary">+ Выезд</a>
-                <a href="#" class="btn btn-secondary">+ ЕТО</a>
-                <a href="#" class="btn btn-secondary">+ Дозор</a>
+                <a href="{% url 'departure_add' card.id %}?eto" class="btn btn-secondary">+ ЕТО</a>
+                <a href="{% url 'departure_add' card.id %}?dozor" class="btn btn-secondary">+ Дозор</a>
             </div>
         </div>
     {% endif %}
