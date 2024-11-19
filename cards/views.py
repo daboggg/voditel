@@ -1,10 +1,15 @@
+from io import BytesIO
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.paginator import Paginator
 from django.db.models import Sum, F
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+from weasyprint import HTML, CSS
 
 from cards.forms import CardAddForm, DepartureAddForm, DepartureUpdateForm
 from cards.models import Card, Departure, Norm
@@ -210,10 +215,46 @@ class ReportDetail(LoginRequiredMixin, DetailView):
             total_time_with_pump=Sum('with_pump', default=0),
             total_with_pump_consumption=Sum('with_pump', default=0) * self.object.norm.work_with_pump_liter_per_min,
             total_time_without_pump=Sum('without_pump', default=0),
-            total_without_pump_consumption=Sum('without_pump', default=0) * self.object.norm.work_without_pump_liter_per_min,
+            total_without_pump_consumption=Sum('without_pump',
+                                               default=0) * self.object.norm.work_without_pump_liter_per_min,
             total_refueled=Sum('refueled', default=0),
-            total_fuel_consumption=F('total_mileage_consumption') + F('total_with_pump_consumption') +F('total_without_pump_consumption'),
+            total_fuel_consumption=F('total_mileage_consumption') + F('total_with_pump_consumption') + F(
+                'total_without_pump_consumption'),
             remaining_fuel_end_month=self.object.remaining_fuel + F('total_refueled') - F('total_fuel_consumption')
         )
         ctx['report_data'] = report_data
         return ctx
+
+
+# def getpdf(request):
+#     response = HttpResponse(content_type='application/pdf')
+#     response['Content-Disposition'] = 'attachment; filename="file.pdf"'
+#     p = canvas.Canvas(response)
+#     p.setFont("Times-Roman", 55)
+#     p.drawString(100, 700, "Hello pidar.")
+#     p.showPage()
+#     p.save()
+#     return response
+
+
+def convert_html_to_pdf_stream(template: str, context: dict) -> BytesIO:
+    html_content = render_to_string(template, context)
+    memory_buffer = BytesIO()
+    pdf = HTML(string=html_content).write_pdf(target=memory_buffer, stylesheets=[CSS(string='@page {size: landscape}')])
+
+    return memory_buffer
+
+
+def get_short_report_pdf(request):
+
+    pdf_stream = convert_html_to_pdf_stream('cards/short_report_pdf.html', {'title': 'ЖЖЖЖ'})
+    response = HttpResponse(pdf_stream.getvalue(), content_type='application/pdf')
+    # response['Content-Disposition'] = 'attachment; filename="your_file.pdf"'
+    return response
+
+
+def get_full_report_pdf(request):
+    pdf_stream = convert_html_to_pdf_stream('cards/full_report_pdf.html', {'title': 'ЖЖЖЖ'})
+    response = HttpResponse(pdf_stream.getvalue(), content_type='application/pdf')
+    # response['Content-Disposition'] = 'attachment; filename="your_file.pdf"'
+    return response

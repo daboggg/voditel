@@ -21,5 +21,8 @@ urlpatterns = [
 
     path('report/<int:pk>/', views.ReportDetail.as_view(), name='report_detail'),
 
+    path('short_report', views.get_short_report_pdf, name='short_report'),
+    path('full_report', views.get_full_report_pdf, name='full_report'),
+
     path('', views.home, name='home')
 ]
