@@ -273,13 +273,13 @@ class ShortReport(View):
         report_data = get_report_data(card)
         report_data['card'] = card
 
-        email = EmailMessage(
-            subject='Proqqqqйййqqqqqqqqqqqqverka',
-            body='ueu eup',
-            from_email='zvovan77@yandex.ru',
-            to=['vzinin@list.ru']
-        )
-        email.send()
+        # email = EmailMessage(
+        #     subject='Proqqqqйййqqqqqqqqqqqqverka',
+        #     body='ueu eup',
+        #     from_email='zvovan77@yandex.ru',
+        #     to=['vzinin@list.ru']
+        # )
+        # email.send()
 
         pdf_stream = convert_html_to_pdf_stream('cards/short_report_pdf.html', report_data)
         response = HttpResponse(pdf_stream.getvalue(), content_type='application/pdf')
