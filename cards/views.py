@@ -276,7 +276,7 @@ class ShortReport(View):
         email = EmailMessage(
             subject='Proqqqqйййqqqqqqqqqqqqverka',
             body='ueu eup',
-            from_email='vzinin@list.ru',
+            from_email='zvovan77@yandex.ru',
             to=['vzinin@list.ru']
         )
         email.send()
