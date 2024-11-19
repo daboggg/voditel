@@ -32,6 +32,11 @@
                         <td><span class="float-end"><a href="{% url 'report_detail' card.pk %}"
                                                        class="btn btn-outline-secondary fw-bold">ОТЧЕТ</a></span></td>
                     </tr>
+                    <tr>
+                        <td>получить короткий отчет:</td>
+                        <td><span class="float-end"><a href="{% url 'short_report' card.pk%}"
+                                                       class="btn btn-outline-secondary fw-bold">ОТЧЕТ</a></span></td>
+                    </tr>
                 {% endif %}
                 <tr>
                     <td>остаток топлива на 1 число месяца:</td>

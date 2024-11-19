@@ -2,12 +2,14 @@ from io import BytesIO
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.mail import EmailMessage
 from django.core.paginator import Paginator
 from django.db.models import Sum, F
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from weasyprint import HTML, CSS
 
@@ -200,6 +202,23 @@ class NormUpdate(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, Upd
     extra_context = {'title': 'Изменить норму'}
 
 
+def get_report_data(card):
+    report_data = card.departures.aggregate(
+        total_distance=Sum('distance', default=0),
+        total_mileage_consumption=Sum('distance', default=0) * card.norm.liter_per_km,
+        total_time_with_pump=Sum('with_pump', default=0),
+        total_with_pump_consumption=Sum('with_pump', default=0) * card.norm.work_with_pump_liter_per_min,
+        total_time_without_pump=Sum('without_pump', default=0),
+        total_without_pump_consumption=Sum('without_pump',
+                                           default=0) * card.norm.work_without_pump_liter_per_min,
+        total_refueled=Sum('refueled', default=0),
+        total_fuel_consumption=F('total_mileage_consumption') + F('total_with_pump_consumption') + F(
+            'total_without_pump_consumption'),
+        remaining_fuel_end_month=card.remaining_fuel + F('total_refueled') - F('total_fuel_consumption')
+    )
+    return report_data
+
+
 class ReportDetail(LoginRequiredMixin, DetailView):
     model = Card
     template_name = 'cards/report_detail.html'
@@ -209,19 +228,7 @@ class ReportDetail(LoginRequiredMixin, DetailView):
         ctx = super().get_context_data(**kwargs)
         ctx['title'] = f'Отчет {self.object}'
 
-        report_data = self.object.departures.aggregate(
-            total_distance=Sum('distance', default=0),
-            total_mileage_consumption=Sum('distance', default=0) * self.object.norm.liter_per_km,
-            total_time_with_pump=Sum('with_pump', default=0),
-            total_with_pump_consumption=Sum('with_pump', default=0) * self.object.norm.work_with_pump_liter_per_min,
-            total_time_without_pump=Sum('without_pump', default=0),
-            total_without_pump_consumption=Sum('without_pump',
-                                               default=0) * self.object.norm.work_without_pump_liter_per_min,
-            total_refueled=Sum('refueled', default=0),
-            total_fuel_consumption=F('total_mileage_consumption') + F('total_with_pump_consumption') + F(
-                'total_without_pump_consumption'),
-            remaining_fuel_end_month=self.object.remaining_fuel + F('total_refueled') - F('total_fuel_consumption')
-        )
+        report_data = get_report_data(self.object)
         ctx['report_data'] = report_data
         return ctx
 
@@ -245,12 +252,11 @@ def convert_html_to_pdf_stream(template: str, context: dict) -> BytesIO:
     return memory_buffer
 
 
-def get_short_report_pdf(request):
-
-    pdf_stream = convert_html_to_pdf_stream('cards/short_report_pdf.html', {'title': 'ЖЖЖЖ'})
-    response = HttpResponse(pdf_stream.getvalue(), content_type='application/pdf')
-    # response['Content-Disposition'] = 'attachment; filename="your_file.pdf"'
-    return response
+# def get_short_report_pdf(request):
+#     pdf_stream = convert_html_to_pdf_stream('cards/short_report_pdf.html', {'title': 'ЖЖЖЖ'})
+#     response = HttpResponse(pdf_stream.getvalue(), content_type='application/pdf')
+#     # response['Content-Disposition'] = 'attachment; filename="your_file.pdf"'
+#     return response
 
 
 def get_full_report_pdf(request):
@@ -258,3 +264,25 @@ def get_full_report_pdf(request):
     response = HttpResponse(pdf_stream.getvalue(), content_type='application/pdf')
     # response['Content-Disposition'] = 'attachment; filename="your_file.pdf"'
     return response
+
+
+class ShortReport(View):
+    def get(self, request, *args, **kwargs):
+        card = Card.objects.get(pk=kwargs.get('pk'))
+
+        report_data = get_report_data(card)
+        report_data['card'] = card
+
+        email = EmailMessage(
+            subject='Proqqqqйййqqqqqqqqqqqqverka',
+            body='ueu eup',
+            from_email='vzinin@list.ru',
+            to=['vzinin@list.ru']
+        )
+        email.send()
+
+        pdf_stream = convert_html_to_pdf_stream('cards/short_report_pdf.html', report_data)
+        response = HttpResponse(pdf_stream.getvalue(), content_type='application/pdf')
+        return response
+
+

@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load social_share %}
 
 {% block title %}
     {{ title }}
@@ -13,7 +12,6 @@
                 <a href="#" onclick="document.getElementById('logout-form').submit(); return false;">Logout</a>
                 {% csrf_token %}
             </form>
-            {% post_to_whatsapp 'short_report' "Share nterest object_or_url" %}
         </li>
     </ul>
 {% endblock %}

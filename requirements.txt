@@ -9,4 +9,3 @@ wcwidth==0.2.13
 pillow==10.4.0
 django-bootstrap-datepicker-plus==5.0.5
 weasyprint==63.0
-django-social-share==2.3.0

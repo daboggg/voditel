@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'cards.apps.CardsConfig',
     'users.apps.UsersConfig',
     'bootstrap_datepicker_plus',
-    'django_social_share',
 
 ]
 
