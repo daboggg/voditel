@@ -8,6 +8,7 @@ from users.templatetags.common_filters import get_rus_month_year
 
 class Truck(models.Model):
     name = models.CharField(max_length=20, verbose_name="марка автомобиля")
+    full_name = models.CharField(max_length=30, verbose_name="полное название автомобиля")
     number = models.CharField(max_length=20, verbose_name="номер автомобиля")
 
     def __str__(self):

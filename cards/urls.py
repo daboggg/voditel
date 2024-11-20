@@ -23,7 +23,8 @@ urlpatterns = [
 
     path('short-report/<int:pk>/', views.ShortReport.as_view(), name='short_report'),
     path('short-report_email/<int:pk>/', views.ShortReportEmail.as_view(), name='short_report_email'),
-    path('full-report', views.get_full_report_pdf, name='full_report'),
+    path('full-report/<int:pk>/', views.FullReport.as_view(), name='full_report'),
+    path('full-report_email/<int:pk>/', views.FullReportEmail.as_view(), name='full_report_email'),
 
     path('', views.home, name='home')
 ]

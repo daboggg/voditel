@@ -5,7 +5,7 @@ from cards.models import Truck, Norm, Card, Departure
 
 @admin.register(Truck)
 class TruckAdmin(admin.ModelAdmin):
-    fields = ['name', 'number']
+    fields = ['name', 'full_name', 'number']
 
 
 @admin.register(Norm)
