@@ -52,19 +52,19 @@
             <td>д/т</td>
             <td>{{ total_distance }}</td>
             <td>{{ card.norm.liter_per_km }}</td>
-            <td>{{ total_mileage_consumption|floatformat:2 }}</td>
+            <td>{{ total_mileage_consumption.normalize }}</td>
             <td>{{ total_time_with_pump }}</td>
             <td>{{ total_time_without_pump }}</td>
             <td>{{ card.norm.work_with_pump_liter_per_min }}</td>
             <td>{{ card.norm.work_without_pump_liter_per_min }}</td>
-            <td>{{ total_with_pump_consumption|floatformat:2 }}</td>
-            <td>{{ total_without_pump_consumption|floatformat:2 }}</td>
+            <td>{{ total_with_pump_consumption.normalize }}</td>
+            <td>{{ total_without_pump_consumption.normalize }}</td>
             <td>{{ card.mileage }}</td>
             <td>{{ card.mileage|add:total_distance }}</td>
             <td>{{ card.remaining_fuel }}</td>
             <td>{{ total_refueled }}</td>
-            <td>{{ total_fuel_consumption|floatformat:2 }}</td>
-            <td>{{ remaining_fuel_end_month|floatformat:2 }}</td>
+            <td>{{ total_fuel_consumption.normalize }}</td>
+            <td>{{ remaining_fuel_end_month.normalize }}</td>
         </tr>
     </table>
 </div>

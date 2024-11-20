@@ -40,19 +40,19 @@
                 </tr>
                 <tr>
                     <td>расход гсм</td>
-                    <td><span class="float-end badge bg-secondary">{{ report_data.total_fuel_consumption| floatformat:2 }} л.</span></td>
+                    <td><span class="float-end badge bg-secondary">{{ report_data.total_fuel_consumption.normalize }} л.</span></td>
                 </tr>
                 <tr>
                     <td>остаток гсм на кон мес</td>
-                    <td><span class="float-end badge bg-secondary">{{ report_data.remaining_fuel_end_month| floatformat:2 }} л.</span></td>
+                    <td><span class="float-end badge bg-secondary">{{ report_data.remaining_fuel_end_month.normalize }} л.</span></td>
                 </tr>
                 <tr>
                     <td>расход топлива с насосом</td>
-                    <td><span class="float-end badge bg-secondary">{{ report_data.total_with_pump_consumption| floatformat:2 }} л.</span></td>
+                    <td><span class="float-end badge bg-secondary">{{ report_data.total_with_pump_consumption.normalize }} л.</span></td>
                 </tr>
                 <tr>
                     <td>расход топлива без насоса</td>
-                    <td><span class="float-end badge bg-secondary">{{ report_data.total_without_pump_consumption| floatformat:2 }} л.</span></td>
+                    <td><span class="float-end badge bg-secondary">{{ report_data.total_without_pump_consumption.normalize }} л.</span></td>
                 </tr>
                 <tr>
                     <td>работа с насосом</td>
@@ -68,7 +68,7 @@
                 </tr>
                 <tr>
                     <td>расход по пробегу</td>
-                    <td><span class="float-end badge bg-secondary">{{ report_data.total_mileage_consumption| floatformat:2 }} л.</span></td>
+                    <td><span class="float-end badge bg-secondary">{{ report_data.total_mileage_consumption.normalize }} л.</span></td>
                 </tr>
 
                 </tbody>
