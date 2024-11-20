@@ -21,8 +21,9 @@ urlpatterns = [
 
     path('report/<int:pk>/', views.ReportDetail.as_view(), name='report_detail'),
 
-    path('short_report/<int:pk>/', views.ShortReport.as_view(), name='short_report'),
-    path('full_report', views.get_full_report_pdf, name='full_report'),
+    path('short-report/<int:pk>/', views.ShortReport.as_view(), name='short_report'),
+    path('short-report_email/<int:pk>/', views.ShortReportEmail.as_view(), name='short_report_email'),
+    path('full-report', views.get_full_report_pdf, name='full_report'),
 
     path('', views.home, name='home')
 ]

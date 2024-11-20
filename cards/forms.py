@@ -165,3 +165,7 @@ class DepartureUpdateForm(forms.ModelForm):
                 'Одно из указанных полей должно быть заполнено')
 
         return cd
+
+
+class ShortReportEmailForm(forms.Form):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
