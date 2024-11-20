@@ -1,8 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView, PasswordChangeView, LogoutView, PasswordResetView, \
-    PasswordResetConfirmView
+from django.contrib.auth.views import LoginView, PasswordChangeView, LogoutView, PasswordResetView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
@@ -19,18 +18,6 @@ class LoginUser(SuccessMessageMixin, ErrorMessageMixin, LoginView):
     # success_message = "%(calculated_field)s - успешный вход"
     error_message = "Ошибка!"
 
-    # def get_success_message(self, cleaned_data):
-    #     return self.success_message % dict(
-    #         cleaned_data,
-    #         calculated_field=cleaned_data,
-    #     )
-
-    # def form_invalid(self, form):
-    #     print(form._errors)
-    #     return super().form_invalid(form)
-
-    # def get_success_url(self):
-    #     return reverse_lazy('home')
 
 class LogoutUser(LogoutView):
     def post(self, request, *args, **kwargs):
@@ -52,7 +39,6 @@ class ProfileUser(SuccessMessageMixin, ErrorMessageMixin, LoginRequiredMixin, Up
     form_class = ProfileUserForm
     template_name = 'users/profile.html'
     extra_context = {'title': 'Профиль пользователя'}
-    # login_url = reverse_lazy('users:login')
     success_message = "%(username)s - профиль изменен"
     error_message = "Ошибка!"
 

@@ -1,9 +1,17 @@
+import os
+
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
 def user_directory_path(instance, filename):
-    return f'users/{instance.username}/{filename}'
+    user = get_user_model().objects.get(pk=instance.pk)
+    if user.photo:
+        if os.path.exists(user.photo.path):
+            os.remove(user.photo.path)
+    imgname = f'users/{instance.username}/{filename}'
+    return imgname
 
 
 class User(AbstractUser):

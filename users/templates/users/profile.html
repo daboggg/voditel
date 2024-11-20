@@ -12,7 +12,7 @@
             {% if user.photo %}
                 <img class="img-thumbnail" src="{{ user.photo.url }}" alt="">
             {% endif %}
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="form-text text-danger">{{ form.non_field_errors }}</div>
 
