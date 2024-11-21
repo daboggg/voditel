@@ -31,15 +31,15 @@
                             <tbody>
                             <tr>
                                 <td>пробег (л/км):</td>
-                                <td><span class="float-end badge bg-secondary">{{ norm.liter_per_km }} л</span></td>
+                                <td><span class="float-end badge bg-secondary">{{ norm.liter_per_km.normalize }}</span></td>
                             </tr>
                             <tr>
                                 <td>работа с насосом (л/мин):</td>
-                                <td><span class="float-end badge bg-secondary">{{ norm.work_with_pump_liter_per_min }} км</span></td>
+                                <td><span class="float-end badge bg-secondary">{{ norm.work_with_pump_liter_per_min.normalize }}</span></td>
                             </tr>
                             <tr>
                                 <td>работа без насоса (л/мин):</td>
-                                <td><span class="float-end badge bg-secondary">{{ norm.work_without_pump_liter_per_min }}</span></td>
+                                <td><span class="float-end badge bg-secondary">{{ norm.work_without_pump_liter_per_min.normalize }}</span></td>
                             </tr>
                             </tbody>
                         </table>
