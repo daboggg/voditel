@@ -57,6 +57,12 @@ class CardDetail(LoginRequiredMixin, DetailView):
             .get('fuel_in_tanks')
         ctx['fuel_in_tanks'] = fuel_in_tanks.normalize() if fuel_in_tanks else self.object.remaining_fuel
 
+        # актуальное показание спидометра
+        actual_mileage = self.object.departures.aggregate(
+            actual_mileage=Sum('distance', default=0) + self.object.mileage
+        ).get('actual_mileage')
+        ctx['actual_mileage'] = actual_mileage
+
         # для пагинации выездов
         for item in self.object.departures.all():
             if item.date not in res:
