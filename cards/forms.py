@@ -50,7 +50,6 @@ class CardAddForm(forms.ModelForm):
 class DepartureAddForm(forms.ModelForm):
     date = forms.DateField(
         label='Дата выезда',
-        initial=date.today(),
         widget=DatePickerInput(attrs={'class': 'form-control'}))
 
     class Meta:

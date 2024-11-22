@@ -1,3 +1,4 @@
+from datetime import date
 from io import BytesIO
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -117,6 +118,7 @@ class DepartureAdd(LoginRequiredMixin, SuccessMessageMixin, ErrorMessageMixin, C
 
     def get_initial(self):
         initial = super().get_initial()
+        initial['date'] = date.today()
         initial['card'] = self.card
         initial['user'] = self.request.user
         initial['norm'] = self.card.norm
